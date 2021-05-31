@@ -9,110 +9,12 @@
     <script src="TemplateData/UnityProgress.js"></script>
     <script src="Build/UnityLoader.js"></script>
     <script>
-      var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Patintero.json");
-	   var scaleToFit;
-		try {
-			scaleToFit = !!JSON.parse("true");
-		} catch (e) {
-			scaleToFit = true;
-		}
-
-		function onResize() {
-			var canvas = gameInstance.Module.canvas;
-			var container = gameInstance.container;
-			var w;
-			var h;
-
-			if (scaleToFit) {
-				w = window.innerWidth;
-				h = window.innerHeight;
-
-				var r = 800 / 450;
-
-				if (w * r > window.innerHeight) {
-					w = Math.min(w, Math.ceil(h / r));
-				}
-				h = Math.floor(w * r);
-			} else {
-				w = 450;
-				h = 800;
-			}
-
-			container.style.width = canvas.style.width = w + "px";
-			container.style.height = canvas.style.height = h + "px";
-			container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
-			container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
-		}
-		window.addEventListener('resize', onResize);
-		 var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            function isIOS() {
-                if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            function isAndroid() {
-                return (/android/i.test(userAgent));
-            }
-            function sendMessageToUnity(message) {
-                if (isIOS()) {
-                    try {
-                        webkit.messageHandlers.UnityInAppBrowser.postMessage(message);
-                    } catch (err) {
-                        console.log('Can not reach native code');
-                    }
-                } else if (isAndroid()) {
-                    UnityInAppBrowser.sendMessageFromJS(message);
-                }
-            }
-            //SEND MESSAGE
-            function ExitGame() {
-                //window.location.href = "ayos://Exit";
-                sendMessageToUnity("Exit");
-            }
-            function PlayBGM() {
-                //window.location.href = "ayos://PlayBGM"
-                sendMessageToUnity("PlayBGM");
-            }
-            function EnableBGM() {
-                //window.location.href = "ayos://ToggleBGM?status=On";
-                sendMessageToUnity("ToggleBGMOn");
-            }
-            function DisableBGM() {
-                //window.location.href = "ayos://ToggleBGM?status=Off";
-                sendMessageToUnity("ToggleBGMOff");
-            }
-            ///PROFILE MESSAGES
-            ///
-            ///messages sent from game to Ayos app
-            function GetAvatar() {
-                sendMessageToUnity("GetAvatar");
-            }
-            function GetBalance() {
-                sendMessageToUnity("GetWallet");
-            }
-            function CreditGems(amount) {
-                sendMessageToUnity("Credit:" + amount);
-            }
-            function DebitGems(amount) {
-                sendMessageToUnity("Debit:" + amount);
-            }
-            ///RETRIEVAL CALLBACKS
-            ///
-            ///data retrieved from Ayos app
-            ///being sent back to the game  
-            function RetrieveWallet(balance) {
-                unityInstance.SendMessage("[Bridge]","RetrieveWallet",balance);
-            }
-            function RetrieveAvatar(response) {
-                unityInstance.SendMessage("[Bridge]", "RetrieveAvatar", response);
-            }
+      var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Patintero.json", {onProgress: UnityProgress});
     </script>
   </head>
   <body>
     <div class="webgl-content">
-      <div id="unityContainer" style="width: 960px; height: 600px"></div>
+      <div id="unityContainer" style="width: 450px; height: 800px"></div>
       <div class="footer">
         <div class="webgl-logo"></div>
         <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
