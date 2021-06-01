@@ -8,13 +8,43 @@
     <link rel="stylesheet" href="TemplateData/style.css">
     <script src="TemplateData/UnityProgress.js"></script>
     <script src="Build/UnityLoader.js"></script>
-    </head>
-  <body>
-    <div id="webgl-content" class="unity-desktop">
-      <div id="unityContainer" style="width: 450px; height: 800px"></div>
-        <script>
-            //JS CALLBACKS
-            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    <script>
+      var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Patintero.json", {onProgress: UnityProgress});
+	  var scaleToFit;
+		try {
+			scaleToFit = !!JSON.parse("true");
+		} catch (e) {
+			scaleToFit = true;
+		}
+
+		function onResize() {
+			var canvas = gameInstance.Module.canvas;
+			var container = gameInstance.container;
+			var w;
+			var h;
+
+			if (scaleToFit) {
+				w = window.innerWidth;
+				h = window.innerHeight;
+
+				var r = 450 / 800;
+
+				if (w * r > window.innerHeight) {
+					w = Math.min(w, Math.ceil(h / r));
+				}
+				h = Math.floor(w * r);
+			} else {
+				w = 450;
+				h = 800;
+			}
+
+			container.style.width = canvas.style.width = w + "px";
+			container.style.height = canvas.style.height = h + "px";
+			container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
+			container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
+		}
+		window.addEventListener('resize', onResize);
+		 var userAgent = navigator.userAgent || navigator.vendor || window.opera;
             function isIOS() {
                 if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
                     return true;
@@ -53,7 +83,6 @@
                 //window.location.href = "ayos://ToggleBGM?status=Off";
                 sendMessageToUnity("ToggleBGMOff");
             }
-​
             ///PROFILE MESSAGES
             ///
             ///messages sent from game to Ayos app
@@ -69,7 +98,6 @@
             function DebitGems(amount) {
                 sendMessageToUnity("Debit:" + amount);
             }
-​
             ///RETRIEVAL CALLBACKS
             ///
             ///data retrieved from Ayos app
@@ -77,60 +105,19 @@
             function RetrieveWallet(balance) {
                 unityInstance.SendMessage("[Bridge]","RetrieveWallet",balance);
             }
-            function RetrieveAvatar(avatar) {
-                unityInstance.SendMessage("[Bridge]", "RetrieveAvatar", avatar);
+            function RetrieveAvatar(response) {
+                unityInstance.SendMessage("[Bridge]", "RetrieveAvatar", response);
             }
-​
-            //UNITY LOADER AND RESPONSIVENESS
-			 var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Patintero.json", { onProgress: UnityProgress });
-​
-            var canvas = document.querySelector("#unityContainer");
-            var content = document.querySelector("#webgl-content");
-​
-            function Resize() {
-                try {
-                    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-                        content.className = "unity-mobile";
-                        canvas.style.width = "100%";
-                        canvas.style.height = "100%";
-                    } else {
-                        canvas.style.width = "450px";
-                        canvas.style.height = "800px";
-                    }
-                } catch (err) {
-                    alert("Error in Responsiveness | Error: " + err.message);
-                }
-            }
-            Resize();
-​
-            function UnityProgress(unityInstance, progress) {
-                if (!unityInstance.Module)
-                    return;
-                if (!unityInstance.logo) {
-                    unityInstance.logo = document.createElement("div");
-                    unityInstance.logo.className = "logo " + unityInstance.Module.splashScreenStyle;
-                    unityInstance.container.appendChild(unityInstance.logo);
-                }
-                if (!unityInstance.progress) {
-                    unityInstance.progress = document.createElement("div");
-                    unityInstance.progress.className = "progress " + unityInstance.Module.splashScreenStyle;
-                    unityInstance.progress.empty = document.createElement("div");
-                    unityInstance.progress.empty.className = "empty";
-                    unityInstance.progress.appendChild(unityInstance.progress.empty);
-                    unityInstance.progress.full = document.createElement("div");
-                    unityInstance.progress.full.className = "full";
-                    unityInstance.progress.appendChild(unityInstance.progress.full);
-                    unityInstance.container.appendChild(unityInstance.progress);
-                }
-                unityInstance.progress.full.style.width = (100 * progress) + "%";
-                unityInstance.progress.empty.style.width = (100 * (1 - progress)) + "%";
-                if (progress == 1) {
-                    unityInstance.logo.style.display = unityInstance.progress.style.display = "none";
-                    Resize();
-                    PlayBGM();
-                }
-            }
-        </script>
+    </script>
+  </head>
+  <body>
+    <div class="webgl-content">
+      <div id="unityContainer" style="width: 450px; height: 800px"></div>
+      <div class="footer">
+        <div class="webgl-logo"></div>
+        <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
+        <div class="title">Patintero</div>
+      </div>
     </div>
   </body>
 </html>
