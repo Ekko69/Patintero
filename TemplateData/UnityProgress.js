@@ -1,4 +1,4 @@
-/*function UnityProgress(unityInstance, progress) {
+function UnityProgress(unityInstance, progress) {
   if (!unityInstance.Module)
     return;
   if (!unityInstance.logo) {
@@ -21,4 +21,4 @@
   unityInstance.progress.empty.style.width = (100 * (1 - progress)) + "%";
   if (progress == 1)
     unityInstance.logo.style.display = unityInstance.progress.style.display = "none";
-}*/
+}
