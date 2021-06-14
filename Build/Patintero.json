@@ -1,7 +1,7 @@
 {
 "companyName": "Multisys Technologies Corporation",
-"productName": "Patintero",
-"productVersion": "1.0",
+"productName": "Teks 2",
+"productVersion": "0.1",
 "dataUrl": "Patintero.data.unityweb",
 "wasmCodeUrl": "Patintero.wasm.code.unityweb",
 "wasmFrameworkUrl": "Patintero.wasm.framework.unityweb",
