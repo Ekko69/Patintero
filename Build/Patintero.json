@@ -1,7 +1,7 @@
 {
-"companyName": "DefaultCompany",
-"productName": "Ayos_Patintero",
-"productVersion": "0.1",
+"companyName": "Multisys Technologies Corporation",
+"productName": "Patintero",
+"productVersion": "1.0",
 "dataUrl": "Patintero.data.unityweb",
 "wasmCodeUrl": "Patintero.wasm.code.unityweb",
 "wasmFrameworkUrl": "Patintero.wasm.framework.unityweb",
