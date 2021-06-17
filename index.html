@@ -74,7 +74,7 @@
             }
 	  
 		//UNITY LOADER AND RESPONSIVENESS
-	    var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Patintero.json", {onProgress: UnityProgress});
+	    var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Patintero.json", {onProgress: UnityProgress, Module: { TOTAL_STACK: 6 * 1024 * 1024 }});
 	  
 		var canvas = document.querySelector("#unityContainer");
 		var content = document.querySelector("#webgl-content");
