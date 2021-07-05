@@ -63,6 +63,9 @@
             function GetAvatar() {
                 sendMessageToUnity("GetAvatar");
             }
+			function GetBaseURL() {
+                sendMessageToUnity("GetBaseURL");
+            }
             function GetBalance() {
                 sendMessageToUnity("GetWallet");
             }
@@ -132,6 +135,10 @@
             }
             function RetrieveAvatar(response) {
                 unityInstance.SendMessage("[Bridge]", "RetrieveAvatar", response);
+            }
+			
+			function FetchBaseURL(response) {
+                unityInstance.SendMessage("[Bridge]", "FetchBaseURL", response);
             }
 	  </script>
       </div>
