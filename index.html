@@ -57,6 +57,7 @@
                 //window.location.href = "ayos://ToggleBGM?status=Off";
                 sendMessageToUnity("ToggleBGMOff");
             }
+			
             ///PROFILE MESSAGES
             ///
             ///messages sent from game to Ayos app
@@ -138,6 +139,9 @@
             }
 			function FetchBaseURL(response) {
                 unityInstance.SendMessage("[Bridge]", "FetchBaseURL", response);
+            }
+			function TogglePause()) {
+                 unityInstance.SendMessage("[Bridge]", "OnGamePaused", response);
             }
 	  </script>
       </div>
