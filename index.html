@@ -140,8 +140,8 @@
 			function FetchBaseURL(response) {
                 unityInstance.SendMessage("[Bridge]", "FetchBaseURL", response);
             }
-			function TogglePause() {
-                 unityInstance.SendMessage("[Bridge]", "OnGamePaused");
+			function TogglePause(response) {
+                unityInstance.SendMessage("[Bridge]", "TogglePause", response);
             }
 	  </script>
       </div>
